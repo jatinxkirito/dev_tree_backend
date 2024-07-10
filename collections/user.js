@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
+const { options } = require("../app");
 const userSchema = new mongoose.Schema({
   education: [
     {
@@ -8,7 +10,13 @@ const userSchema = new mongoose.Schema({
       },
       endDate: {
         type: Number,
-        required: [true, "Education must have a start year"],
+        required: [true, "Education must have a end year"],
+        validate: {
+          validator: function (val) {
+            return val >= this.startDate;
+          },
+          message: "Start year must be less than end year",
+        },
       },
       institutionName: {
         type: String,
@@ -18,16 +26,37 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Education must have a degree"],
       },
-      grade: { String, required: [true, "Education must have a grade"] },
-      location: { String, required: [true, "Education must have a location"] },
+      grade: { type: String, required: [true, "Education must have a grade"] },
+      location: {
+        type: String,
+        required: [true, "Education must have a location"],
+      },
     },
   ],
   name: { type: String, required: [true, "You must have a name"] },
+  username: {
+    type: String,
+    required: [true, "You must have a username"],
+    unique: [true, "Username already in use"],
+    validate: {
+      validator: function (str) {
+        return validator.isAlphanumeric(str, "en-US", { ignore: "_" });
+      },
+      message: "Username can only be alphanumeric and underscore",
+    },
+  },
+  email: {
+    type: String,
+    required: [true, "Please provide a email address"],
+    validate: [validator.isEmail, "Please provide a valid email address"],
+    unique: [true, "Username already in use"],
+  },
+  linkedin: { type: String },
   job: { type: String, required: [true, "Please provide your job"] },
-  skills: [{ name: String }],
+  skills: [String],
   descriprion: {
     type: String,
-    required: [true, "Please provide a brief information about you "],
+    //required: [true, "Please provide a brief information about you "],
   },
   work: [
     {
@@ -52,7 +81,7 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
-  achievments: [{ achievment: { type: String } }],
+  achievments: [String],
   github: { type: String },
   projects: [
     {
@@ -70,3 +99,4 @@ const userSchema = new mongoose.Schema({
   codeforces: { type: String },
   codechef: { type: String },
 });
+module.exports = mongoose.model("User", userSchema);
