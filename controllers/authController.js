@@ -10,7 +10,7 @@ exports.googleCallback = async (req, res) => {
   try {
     // console.log(req);
     const { code } = req.query;
-    console.log(code);
+    //console.log(code);
     // Exchange authorization code for access token
     const { data } = await axios.post("https://oauth2.googleapis.com/token", {
       client_id: process.env.CLIENT_ID,
@@ -35,7 +35,7 @@ exports.googleCallback = async (req, res) => {
     return res.status(200).json({ status: "success", profile });
     //res.redirect("http://localhost:5173/krto/cp");
   } catch (error) {
-    console.error("Error:", error);
+    //  console.error("Error:", error);
     // next(err);
     return res.status(404).json({ message: "error", error });
   }

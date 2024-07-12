@@ -33,6 +33,8 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  picture: String,
+  googleId: { type: String, unique: true },
   name: { type: String, required: [true, "You must have a name"] },
   username: {
     type: String,
@@ -52,7 +54,7 @@ const userSchema = new mongoose.Schema({
     unique: [true, "Username already in use"],
   },
   linkedin: { type: String },
-  job: { type: String, required: [true, "Please provide your job"] },
+  job: { type: String },
   skills: [String],
   descriprion: {
     type: String,
@@ -99,4 +101,5 @@ const userSchema = new mongoose.Schema({
   codeforces: { type: String },
   codechef: { type: String },
 });
+userSchema.index({ email: 1 });
 module.exports = mongoose.model("User", userSchema);

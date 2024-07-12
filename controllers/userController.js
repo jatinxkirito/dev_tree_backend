@@ -1,9 +1,19 @@
 const User = require("../collections/user");
 const AppError = require("../utils/appError");
-exports.getUser = async (req, res, next) => {
+exports.getUserbyUserName = async (req, res, next) => {
   try {
-    const data = await User.find({ username: req.params.id });
-    return res.status(200).json({ status: "success", data });
+    const data = await User.findOne({ username: req.params.id });
+    if (data) return res.status(200).json({ status: "userExists", data });
+    return res.status(404).json({ status: "user not found" });
+  } catch (err) {
+    next(err);
+  }
+};
+exports.getUserbyEmail = async (req, res, next) => {
+  try {
+    const data = await User.findOne({ email: req.params.mail });
+    if (data) return res.status(200).json({ status: "userExists", data });
+    return res.status(404).json({ status: "user not found" });
   } catch (err) {
     next(err);
   }
