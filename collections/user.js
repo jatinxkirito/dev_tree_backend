@@ -102,4 +102,5 @@ const userSchema = new mongoose.Schema({
   codechef: { type: String },
 });
 userSchema.index({ email: 1 });
+userSchema.index({ username: 1 });
 module.exports = mongoose.model("User", userSchema);
