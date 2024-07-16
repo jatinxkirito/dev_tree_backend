@@ -12,8 +12,9 @@ exports.getUserbyUserName = async (req, res, next) => {
 exports.getUserWork = async (req, res, next) => {
   try {
     const data = await User.findOne({ username: req.params.id }).select(
-      "github projects"
+      "github work"
     );
+
     if (data) return res.status(200).json({ status: "success", data });
   } catch (err) {
     next(err);
@@ -60,14 +61,7 @@ exports.getUserAchievments = async (req, res, next) => {
     next(err);
   }
 };
-exports.getUserWork = async (req, res, next) => {
-  try {
-    const data = await User.findOne({ username: req.params.id }).select("work");
-    if (data) return res.status(200).json({ status: "success", data });
-  } catch (err) {
-    next(err);
-  }
-};
+
 exports.getUserbyEmail = async (req, res, next) => {
   try {
     const data = await User.findOne({ email: req.params.mail });
