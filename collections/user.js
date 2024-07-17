@@ -1,38 +1,10 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const { options } = require("../app");
+const educationSchema = require("./education");
+const workSchema = require("./work");
+const projectSchema = require("./project");
 const userSchema = new mongoose.Schema({
-  education: [
-    {
-      startDate: {
-        type: Number,
-        required: [true, "Education must have a start year"],
-      },
-      endDate: {
-        type: Number,
-        required: [true, "Education must have a end year"],
-        validate: {
-          validator: function (val) {
-            return val >= this.startDate;
-          },
-          message: "Start year must be less than end year",
-        },
-      },
-      institutionName: {
-        type: String,
-        required: [true, "Education must have an institution"],
-      },
-      degreeName: {
-        type: String,
-        required: [true, "Education must have a degree"],
-      },
-      grade: { type: String, required: [true, "Education must have a grade"] },
-      location: {
-        type: String,
-        required: [true, "Education must have a location"],
-      },
-    },
-  ],
+  education: [educationSchema],
   picture: String,
   googleId: { type: String, unique: true },
   name: { type: String, required: [true, "You must have a name"] },
@@ -60,43 +32,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     //required: [true, "Please provide a brief information about you "],
   },
-  work: [
-    {
-      company: {
-        type: String,
-        required: [true, "Please provide company name"],
-      },
-      jobTitle: {
-        type: String,
-        required: [true, "Please provide company job title"],
-      },
-      startDate: {
-        type: String,
-        required: [true, "Please provide start date"],
-      },
-      endDate: { type: String, default: "Present" },
-      location: { type: String, required: [true, "Please provide location"] },
-      skills: { type: String, required: [true, "Please provide skills used"] },
-      description: {
-        type: String,
-        required: [true, "Please provide description"],
-      },
-    },
-  ],
+  work: [workSchema],
   achievments: [String],
   github: { type: String },
-  projects: [
-    {
-      image: { type: String, required: [true, "Please provide image"] },
-      name: { type: String, required: [true, "Please provide name"] },
-      description: {
-        type: String,
-        required: [true, "Please provide description of project"],
-      },
-      githubLink: { type: String },
-      hostedLink: { type: String },
-    },
-  ],
+  projects: [projectSchema],
   leetcode: { type: String },
   codeforces: { type: String },
   codechef: { type: String },

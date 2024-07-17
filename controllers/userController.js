@@ -12,7 +12,7 @@ exports.getUserbyUserName = async (req, res, next) => {
 exports.getUserWork = async (req, res, next) => {
   try {
     const data = await User.findOne({ username: req.params.id }).select(
-      "github work"
+      "github projects"
     );
 
     if (data) return res.status(200).json({ status: "success", data });
