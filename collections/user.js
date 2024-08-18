@@ -6,6 +6,7 @@ const projectSchema = require("./project");
 const userSchema = new mongoose.Schema({
   education: [educationSchema],
   picture: String,
+  public_id: String,
   googleId: { type: String, unique: true },
   name: { type: String, required: [true, "You must have a name"] },
   username: {
@@ -28,7 +29,7 @@ const userSchema = new mongoose.Schema({
   linkedin: { type: String },
   job: { type: String },
   skills: [String],
-  descriprion: {
+  description: {
     type: String,
     //required: [true, "Please provide a brief information about you "],
   },
