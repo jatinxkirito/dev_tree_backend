@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
   codeforces: { type: String },
   codechef: { type: String },
 });
+userSchema.pre(/^find/, function (next) {
+  this.populate({ path: "projects.image", select: "name" });
+  next();
+});
 userSchema.index({ email: 1 });
 userSchema.index({ username: 1 });
 module.exports = mongoose.model("User", userSchema);

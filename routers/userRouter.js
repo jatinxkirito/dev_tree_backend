@@ -11,6 +11,7 @@ userRouter.get("/:id/cp", userController.getUserCp);
 userRouter.get("/:id/image", userController.getUserImage);
 userRouter.get("/:id/work", userController.getUserWork);
 userRouter.get("/:id/achievments", userController.getUserAchievments);
+userRouter.get("/:id/skills", userController.getUserSkills);
 userRouter.get("/:id/experience", userController.getUserExperience);
 userRouter.delete("/:id", userController.deleteUser);
 userRouter.patch("/:id", userController.updateUser);

@@ -1,12 +1,10 @@
 const mongoose = require("mongoose");
-
+const Imag = require("./image");
 const projectSchema = new mongoose.Schema({
   image: {
-    type: String,
-    default:
-      "https://wallpapers.com/images/hd/coding-background-9izlympnd0ovmpli.jpg",
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Imag",
   },
-  public_id: String,
   name: { type: String, required: [true, "Please provide name"] },
   description: {
     type: String,

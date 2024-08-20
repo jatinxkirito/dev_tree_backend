@@ -110,7 +110,16 @@ exports.getUserAchievments = async (req, res, next) => {
     next(err);
   }
 };
-
+exports.getUserSkills = async (req, res, next) => {
+  try {
+    const data = await User.findOne({ username: req.params.id }).select(
+      "skills"
+    );
+    if (data) return res.status(200).json({ status: "success", data });
+  } catch (err) {
+    next(err);
+  }
+};
 exports.getUserbyEmail = async (req, res, next) => {
   try {
     const data = await User.findOne({ email: req.params.mail });
