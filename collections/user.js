@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
   codechef: { type: String },
 });
 userSchema.pre(/^find/, function (next) {
-  this.populate({ path: "projects.image", select: "name" });
+  this.populate({ path: "projects.image" });
   next();
 });
 userSchema.index({ email: 1 });

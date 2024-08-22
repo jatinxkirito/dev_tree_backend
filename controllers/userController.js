@@ -1,4 +1,5 @@
 const User = require("../collections/user");
+const Imag = require("../collections/image");
 const AppError = require("../utils/appError");
 var cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -6,6 +7,25 @@ cloudinary.config({
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET, // Click 'View API Keys' above to copy your API secret
 });
+exports.uploadProjectimage = async (req, res, next) => {
+  try {
+    const data = await Imag.create(req.body);
+    return res.status(200).json({ status: "success", data });
+  } catch (err) {
+    next(err);
+  }
+};
+exports.updateProjectImage = async (req, res, next) => {
+  try {
+    const data = await Imag.findByIdAndUpdate(req.body.id, req.body);
+    await cloudinary.uploader.destroy(data.public_id, function (result) {
+      // console.log(result);
+    });
+    return res.status(200).json({ status: "success", data });
+  } catch (err) {
+    next(err);
+  }
+};
 exports.updateUserimage = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.name });
@@ -49,7 +69,17 @@ exports.getUserImage = async (req, res, next) => {
     next(err);
   }
 };
+exports.getUserProjects = async (req, res, next) => {
+  try {
+    const data = await User.findOne({ username: req.params.id }).select(
+      "projects"
+    );
 
+    if (data) return res.status(200).json({ status: "success", data });
+  } catch (err) {
+    next(err);
+  }
+};
 exports.getUserWork = async (req, res, next) => {
   try {
     const data = await User.findOne({ username: req.params.id }).select(
