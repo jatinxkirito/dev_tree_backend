@@ -2,6 +2,7 @@ const express = require("express");
 const userController = require("../controllers/userController");
 const userRouter = express.Router();
 userRouter.patch("/userDp", userController.updateUserimage);
+userRouter.patch("/updateProject/:id", userController.updateProject);
 userRouter.get("/getUser/:mail", userController.getUserbyEmail);
 userRouter.post("/createProjectImage", userController.uploadProjectimage);
 userRouter.post("", userController.createUser);

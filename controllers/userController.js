@@ -7,6 +7,40 @@ cloudinary.config({
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET, // Click 'View API Keys' above to copy your API secret
 });
+exports.updateProject = async (req, res, next) => {
+  try {
+    //console.log(req.params.id);
+    const data = await User.findOneAndUpdate(
+      { username: req.params.id },
+      req.body,
+      { new: false }
+    );
+    //console.log(data.projects);
+    const l1 = req.body.projects;
+    for (let ob of data.projects) {
+      if (!ob.image) continue;
+      let f = 1;
+      for (let i of l1) {
+        if (ob.image && i.image && ob.image._id == i.image) {
+          f = 0;
+          break;
+        }
+      }
+      if (f) {
+        await cloudinary.uploader.destroy(
+          ob.image.public_id,
+          function (result) {
+            // console.log(result);
+          }
+        );
+        await Imag.findByIdAndDelete(ob.image._id);
+      }
+    }
+    return res.status(200).json({ status: "success", data });
+  } catch (err) {
+    next(err);
+  }
+};
 exports.uploadProjectimage = async (req, res, next) => {
   try {
     const data = await Imag.create(req.body);
