@@ -1,4 +1,5 @@
-const REDIRECT_URI = "http://localhost:5173/auth/google/callback";
+const REDIRECT_URI =
+  "https://dev-tree-frontend.vercel.app//auth/google/callback";
 const axios = require("axios");
 exports.googleAuth = (req, res, next) => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
