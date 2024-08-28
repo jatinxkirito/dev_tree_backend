@@ -187,8 +187,10 @@ exports.getUserSkills = async (req, res, next) => {
 exports.getUserbyEmail = async (req, res, next) => {
   try {
     const data = await User.findOne({ email: req.params.mail });
+
     if (data) return res.status(200).json({ status: "userExists", data });
-    return res.status(404).json({ status: "user not found" });
+    console.log(req.params.email);
+    return res.status(200).json({ status: "user not found" });
   } catch (err) {
     next(err);
   }

@@ -1,6 +1,7 @@
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
+  console.log(err);
   if (req.originalUrl.startsWith("/api")) {
     console.log(err.stack);
     err.statusCode = err.statusCode || 500;

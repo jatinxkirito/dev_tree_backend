@@ -3,7 +3,7 @@ const axios = require("axios");
 exports.googleAuth = (req, res, next) => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
 
-  res.redirect("http://localhost:5173/krto/cp");
+  res.redirect(url);
   //return res.status(200).json({ message: "success" });
 };
 exports.googleCallback = async (req, res) => {
@@ -30,6 +30,7 @@ exports.googleCallback = async (req, res) => {
         headers: { Authorization: `Bearer ${access_token}` },
       }
     );
+    // console.log("pikachu");
     console.log(profile);
     // Code to handle user authentication and retrieval using the profile data
     return res.status(200).json({ status: "success", profile });
